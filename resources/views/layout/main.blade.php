@@ -6,20 +6,21 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>@yield('title')</title>
 
+
     <!-- General CSS Files -->
     <link rel="stylesheet" href="/assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/modules/fontawesome/css/all.min.css">
 
     <!-- CSS Libraries -->
-    <link rel="stylesheet" href="/assets/modules/datatables/datatables.min.css">
-    <link rel="stylesheet" href="/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+    @yield('csslibrary')
+
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/components.css">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -116,93 +117,7 @@
         </div>
     </div>
 
-    <!-- Modal Pegawai-->
-    <!-- ========================================================================================================= -->
-    <!-- Modal Tambah-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pegawai</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>NPK</label>
-                                <input type="text" class="form-control @error('npk') is-invalid @enderror"
-                                    name="npk">
-                                @error('npk')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Nama Pegawai</label>
-                                <input type="text" class="form-control" name="nama">
-                            </div>
-                            <div class="form-group">
-                                <label>Tanggal Lahir</label>
-                                <input type="date" class="form-control" name="tanggal_lahir">
-                            </div>
-                            <div class="form-group">
-                                <label>Jenis Kelamin</label>
-                                <select class="form-control" name="jenis_kelamin">
-                                    <option>Silakan pilih</option>
-                                    <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Nomor Hp</label>
-                                <input type="text" class="form-control" name="nohp">
-                            </div>
-                            <div class="form-group">
-                                <label>Jabatan</label>
-                                <input type="text" class="form-control" name="jabatan">
-                            </div>
-                            <div class="form-group">
-                                <label>TMT</label>
-                                <input type="date" class="form-control" name="tmt">
-                            </div>
-                            <div class="form-group">
-                                <label>File Foto</label>
-                                <input type="file" class="form-control" name="foto" id="image">
-                                <img src="" id="showImage" class="img-fluid" width="200px">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
 
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================================================================================= -->
-    <!-- End Modal Tambah-->
-    <!-- Modal Pegawai-->
-
-    <!-- Generet foto data pegawai -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#showImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files['0']);
-            });
-        });
-    </script>
     <!-- General JS Scripts -->
     <script src="/assets/modules/jquery.min.js"></script>
     <script src="/assets/modules/popper.js"></script>
@@ -213,20 +128,12 @@
     <script src="/assets/js/stisla.js"></script>
 
     <!-- JS Libraies -->
-    <script src="/assets/modules/datatables/datatables.min.js"></script>
-    <script src="/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-    <script src="/assets/modules/jquery-ui/jquery-ui.min.js"></script>
+    @yield('jslibrary')
+
 
     <!-- Page Specific JS File -->
-    <script>
-        $("#table-1").dataTable({
-            "columnDefs": [{
-                "sortable": false,
-                "targets": [2, 3]
-            }]
-        });
-    </script>
+    @yield('datatable')
+
 
     <!-- Template JS File -->
     <script src="/assets/js/scripts.js"></script>

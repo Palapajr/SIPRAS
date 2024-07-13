@@ -1,15 +1,21 @@
 @extends('layout.main')
 
+@section('csslibrary')
+<link rel="stylesheet" href="/assets/modules/datatables/datatables.min.css">
+<link rel="stylesheet" href="/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+@stop
+
 @section('title', 'Data Pegawai')
 
 @section('content')
     <div class="section-header">
         <h1>@yield('title')</h1>
         <div class="section-header-breadcrumb">
-            <button type="button" class="btn btn-icon icon-left btn-primary" data-toggle="modal" data-target="#exampleModal"><i
+            <a href="{{ route('create') }}" class="btn btn-icon icon-left btn-primary"><i
                     class="fa fa-solid fa-plus"></i>
                 Tambah Data
-            </button>
+            </a>
         </div>
     </div>
 
@@ -38,7 +44,7 @@
                                         <td>{{ $item->nohp }}</td>
                                         <td>{{ $item->jabatan }}</td>
                                         <td>
-                                            <img src="{{ asset('upload') . '/' . $item->foto }}" width="50"
+                                            <img src="{{ asset('images') . '/' . $item->foto }}" width="50"
                                                 height="50">
                                         </td>
                                         <td>
@@ -61,3 +67,21 @@
 
 
 @endsection
+
+@section('jslibrary')
+<script src="/assets/modules/datatables/datatables.min.js"></script>
+<script src="/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+<script src="/assets/modules/jquery-ui/jquery-ui.min.js"></script>
+@stop
+
+@section('datatable')
+<script>
+    $("#table-1").dataTable({
+        "columnDefs": [{
+            "sortable": false,
+            "targets": [2, 3]
+        }]
+    });
+</script>
+@stop

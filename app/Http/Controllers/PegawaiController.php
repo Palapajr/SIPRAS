@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
 {
+    public $filename;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Pegawai::get();
-
+        $data = Pegawai::orderBy('created_at', 'desc')->get();
         return view('pegawai.index', compact('data'));
     }
 
@@ -22,7 +22,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        //
+        return view('pegawai.create');
     }
 
     /**
@@ -38,19 +38,28 @@ class PegawaiController extends Controller
             'nohp' => 'required',
             'jabatan' => 'required',
             'tmt' => 'required|date',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|file|image|max:2048',
         ]);
 
-        $pegawai = new Pegawai($request->all());
-
         if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('public/foto');
-            $pegawai->foto = $path;
+            $path = $request->file('foto');
+            $this->filename = date('dmYHi').'-'. $path->getClientOriginalName();
+            $path->move(public_path('images'), $this->filename);
         }
 
-        $pegawai->save();
+        Pegawai::create([
+            'npk' => $request->npk,
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nohp' => $request->nohp,
+            'jabatan' => $request->jabatan,
+            'tmt' => $request->tmt,
+            'foto' => $this->filename,
+        ]);
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
+        return redirect()->route('index');
+        // return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
     }
 
     /**
