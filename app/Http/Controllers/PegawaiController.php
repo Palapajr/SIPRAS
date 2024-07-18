@@ -42,11 +42,14 @@ class PegawaiController extends Controller
             'foto' => 'nullable|file|image|max:2048',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $path = $request->file('foto');
-            $this->filename = date('dmYHi') . '-' . $path->getClientOriginalName();
-            $path->move(public_path('images'), $this->filename);
-        }
+        $foto = $request->file('foto');
+        $foto->storeAs('public', $foto->hashName());
+
+        // if ($request->hasFile('foto')) {
+        //     $path = $request->file('foto');
+        //     $this->filename = date('dmYHi') . '-' . $path->getClientOriginalName();
+        //     $path->move(public_path('images'), $this->filename);
+        // }
 
         Pegawai::create([
             'npk' => $request->npk,
@@ -56,10 +59,10 @@ class PegawaiController extends Controller
             'nohp' => $request->nohp,
             'jabatan' => $request->jabatan,
             'tmt' => $request->tmt,
-            'foto' => $this->filename,
+            'foto' => $foto->hashName()
         ]);
 
-        return redirect()->route('index');
+        return redirect()->route('index')->with(['success' => 'Data Berhasil Disimpan!']);
         // return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan');
     }
 
@@ -68,7 +71,6 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        return view('pegawai.show', compact('pegawai'));
     }
 
     /**

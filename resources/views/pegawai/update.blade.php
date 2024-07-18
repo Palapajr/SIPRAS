@@ -26,7 +26,6 @@
                         <form action="{{ route('pegawai.edit', ['id' => $edit->id]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            @method('put')
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>NPK</label>
@@ -108,6 +107,26 @@
                                 </div>
                                 <div class="form-group">
                                     <label>File Foto</label>
+                                    {{-- <input type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" id="image"> --}}
+                                    <input type="file" class="form-control @error('foto') is-invalid @enderror"
+                                        name="foto" id="image" onchange="previewImage()"
+                                        value="{{ $edit->foto }}">
+                                    @error('foto')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    <img class="img-preview img-fluid">
+                                    {{-- <img src="" id="showImage" class="img-fluid" width="100px"> --}}
+                                    @if ($edit->foto)
+                                        <img src="src="{{ asset('images') . '/' . $edit->foto }}"
+                                            class="img-preview img-fluid">
+                                    @else
+                                        <img class="img-preview img-fluid">
+                                    @endif
+                                </div>
+                                {{-- <div class="form-group">
+                                    <label>File Foto</label>
                                     <input type="file" class="form-control" name="foto" id="image"
                                         value="{{ $edit->foto }}">
                                     @error('foto')
@@ -116,7 +135,7 @@
                                         </div>
                                     @enderror
                                     <img src="" id="showImage" class="img-fluid" width="100px">
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <a href="{{ route('index') }}" class="btn btn-secondary">Close</a>
@@ -138,7 +157,7 @@
 @section('jslibrary')
     <script src="/assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- Generet foto data pegawai -->
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             $('#image').change(function(e) {
                 var reader = new FileReader();
@@ -148,5 +167,20 @@
                 reader.readAsDataURL(e.target.files['0']);
             });
         });
+    </script> --}}
+    <script>
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
     </script>
 @stop

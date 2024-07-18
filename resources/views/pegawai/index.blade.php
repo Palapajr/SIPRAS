@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/assets/modules/datatables/datatables.min.css">
     <link rel="stylesheet" href="/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/modules/izitoast/css/iziToast.min.css">
 @stop
 
 @section('title', 'Data Pegawai')
@@ -72,6 +73,17 @@
     <script src="/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
     <script src="/assets/modules/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/assets/modules/izitoast/js/iziToast.min.js"></script>
+    <script>
+        //message with toastr
+        @if (session()->has('success'))
+
+            toastr.success('{{ session('success') }}', 'BERHASIL!');
+        @elseif (session()->has('error'))
+
+            toastr.error('{{ session('error') }}', 'GAGAL!');
+        @endif
+    </script>
 @stop
 
 @section('datatable')

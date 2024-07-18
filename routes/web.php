@@ -40,3 +40,5 @@ Route::get('/pegawai/create', [PegawaiController::class, 'create'])->name('creat
 Route::post('/pegawai', [PegawaiController::class, 'store'])->name('store');
 Route::get('/pegawai/edit{id}', [PegawaiController::class, 'edit'])->name('pegawai.edit');
 Route::put('/pegawai/update{id}', [PegawaiController::class, 'update'])->name('pegawai.update');
+
+// Route::resource('/pegawai', \App\Http\Controllers\PegawaiController::class);
