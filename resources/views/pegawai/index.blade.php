@@ -1,9 +1,9 @@
 @extends('layout.main')
 
 @section('csslibrary')
-<link rel="stylesheet" href="/assets/modules/datatables/datatables.min.css">
-<link rel="stylesheet" href="/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="/assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/modules/datatables/datatables.min.css">
+    <link rel="stylesheet" href="/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
 @stop
 
 @section('title', 'Data Pegawai')
@@ -12,8 +12,7 @@
     <div class="section-header">
         <h1>@yield('title')</h1>
         <div class="section-header-breadcrumb">
-            <a href="{{ route('create') }}" class="btn btn-icon icon-left btn-primary"><i
-                    class="fa fa-solid fa-plus"></i>
+            <a href="{{ route('create') }}" class="btn btn-icon icon-left btn-primary"><i class="fa fa-solid fa-plus"></i>
                 Tambah Data
             </a>
         </div>
@@ -50,8 +49,8 @@
                                         <td>
                                             <a href="#" class="btn btn-icon btn-info"><i
                                                     class="fa fa-solid fa-info"></i></a>
-                                            <a href="#" class="btn btn-icon btn-warning"><i
-                                                    class="fa fa-regular fa-pen"></i></a>
+                                            <a href="{{ route('pegawai.edit', ['id' => $item->id]) }}"
+                                                class="btn btn-icon btn-warning"><i class="fa fa-regular fa-pen"></i></a>
                                             <a href="#" class="btn btn-icon btn-danger"><i
                                                     class="fa fa-solid fa-trash"></i></a>
                                         </td>
@@ -69,19 +68,19 @@
 @endsection
 
 @section('jslibrary')
-<script src="/assets/modules/datatables/datatables.min.js"></script>
-<script src="/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script src="/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
-<script src="/assets/modules/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/assets/modules/datatables/datatables.min.js"></script>
+    <script src="/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+    <script src="/assets/modules/jquery-ui/jquery-ui.min.js"></script>
 @stop
 
 @section('datatable')
-<script>
-    $("#table-1").dataTable({
-        "columnDefs": [{
-            "sortable": false,
-            "targets": [2, 3]
-        }]
-    });
-</script>
+    <script>
+        $("#table-1").dataTable({
+            "columnDefs": [{
+                "sortable": false,
+                "targets": [2, 3]
+            }]
+        });
+    </script>
 @stop

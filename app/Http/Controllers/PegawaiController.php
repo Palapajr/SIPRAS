@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PegawaiController extends Controller
 {
@@ -43,7 +44,7 @@ class PegawaiController extends Controller
 
         if ($request->hasFile('foto')) {
             $path = $request->file('foto');
-            $this->filename = date('dmYHi').'-'. $path->getClientOriginalName();
+            $this->filename = date('dmYHi') . '-' . $path->getClientOriginalName();
             $path->move(public_path('images'), $this->filename);
         }
 
@@ -73,9 +74,10 @@ class PegawaiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        //
+        $edit = Pegawai::findOrFail($id);
+        return view('pegawai.update', compact('edit'));
     }
 
     /**
@@ -83,9 +85,42 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $request->validate([
+            'npk' => 'required|unique:pegawai',
+            'nama' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'nohp' => 'required',
+            'jabatan' => 'required',
+            'tmt' => 'required|date',
+            'foto' => 'nullable|file|image|max:2048',
+        ]);
 
+        $edit = Pegawai::findOrFail($id);
+
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto');
+            $this->filename = date('dmYHi') . '-' . $path->getClientOriginalName();
+            $path->move(public_path('images'), $this->filename);
+
+            if (File::exists($edit->image)) {
+                File::delete($edit->image);
+            }
+        }
+
+        $edit->update([
+            'npk' => $request->npk,
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nohp' => $request->nohp,
+            'jabatan' => $request->jabatan,
+            'tmt' => $request->tmt,
+            'foto' => $this->filename,
+        ]);
+
+        return redirect()->route('index');
+    }
     /**
      * Remove the specified resource from storage.
      */
